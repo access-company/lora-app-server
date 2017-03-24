@@ -15,6 +15,7 @@ import (
 	"github.com/brocaar/lorawan"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/garyburd/redigo/redis"
+	"github.com/brocaar/lora-app-server/internal/storage"
 )
 
 const txTopic = "application/+/node/+/tx"
@@ -88,7 +89,7 @@ func (h *MQTTHandler) Close() error {
 }
 
 // SendDataUp sends a DataUpPayload.
-func (h *MQTTHandler) SendDataUp(payload DataUpPayload) error {
+func (h *MQTTHandler) SendDataUp(payload DataUpPayload, _ storage.Application) error {
 	b, err := json.Marshal(payload)
 	if err != nil {
 		return fmt.Errorf("handler/mqtt: data-up payload marshal error: %s", err)

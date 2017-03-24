@@ -290,7 +290,7 @@ func (a *ApplicationServerAPI) HandleDataUp(ctx context.Context, req *as.HandleD
 		})
 	}
 
-	err = a.ctx.Handler.SendDataUp(pl)
+	err = a.ctx.Handler.SendDataUp(pl, app)
 	if err != nil {
 		errStr := fmt.Sprintf("send data up to handler error: %s", err)
 		log.Error(errStr)

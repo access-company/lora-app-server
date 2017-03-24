@@ -7,20 +7,19 @@ import (
 	"bytes"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/brocaar/lora-app-server/internal/storage"
 )
 
 // HttpHandler implements a HTTP handler for sending and receiving data by
 // an application.
 type HttpHandler struct {
 	dataDownChan chan DataDownPayload
-	callbackURL  string
 }
 
 // NewHttpHandler creates a new HttpHandler.
-func NewHttpHandler(url string) (Handler, error) {
+func NewHttpHandler() (Handler, error) {
 	h := HttpHandler{
 		dataDownChan: make(chan DataDownPayload),
-		callbackURL:  url,
 	}
 	return &h, nil
 }
@@ -33,7 +32,7 @@ func (h *HttpHandler) Close() error {
 }
 
 // SendDataUp sends a DataUpPayload.
-func (h *HttpHandler) SendDataUp(payload DataUpPayload) error {
+func (h *HttpHandler) SendDataUp(payload DataUpPayload, app storage.Application) error {
 	log.Info("handler/http: SendDataUp")
 	b, err := json.Marshal(payload)
 	if err != nil {
@@ -41,7 +40,7 @@ func (h *HttpHandler) SendDataUp(payload DataUpPayload) error {
 	}
 	fmt.Printf( "payload %+v\n", b)
 
-	resp, err := http.Post(h.CallbackURL, "application/json", bytes.NewBuffer(b))
+	resp, err := http.Post(app.CallbackURL, "application/json", bytes.NewBuffer(b))
 	if err != nil {
 		return fmt.Errorf("handler/http: fail to request: %s", err)
 	}

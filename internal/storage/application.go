@@ -19,6 +19,7 @@ type Application struct {
 	ID          int64  `db:"id"`
 	Name        string `db:"name"`
 	Description string `db:"description"`
+	CallbackURL string `db:"callback"`
 
 	IsABP              bool     `db:"is_abp"`
 	IsClassC           bool     `db:"is_class_c"`
