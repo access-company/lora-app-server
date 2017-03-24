@@ -173,8 +173,8 @@ func mustGetContext(c *cli.Context) common.Context {
 	log.Info("setup redis connection pool")
 	rp := storage.NewRedisPool(c.String("redis-url"))
 
-	// setup mqtt handler
-	h, err := handler.NewMQTTHandler(rp, c.String("mqtt-server"), c.String("mqtt-username"), c.String("mqtt-password"))
+	// setup http handler
+	h, err := handler.NewHttpHandler(c.String("callback-url"))
 	if err != nil {
 		log.Fatalf("setup mqtt handler error: %s", err)
 	}
@@ -400,6 +400,11 @@ func main() {
 			Name:   "mqtt-password",
 			Usage:  "mqtt server password (optional)",
 			EnvVar: "MQTT_PASSWORD",
+		},
+		cli.StringFlag{
+			Name:   "callback-url",
+			Usage:  "callback url (e.g. http://localhost/)",
+			EnvVar: "CALLBACK_URL",
 		},
 		cli.StringFlag{
 			Name:   "ca-cert",
