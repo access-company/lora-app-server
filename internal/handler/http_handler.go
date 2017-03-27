@@ -44,6 +44,7 @@ func (h *HttpHandler) SendDataUp(payload DataUpPayload, app storage.Application)
 	if err != nil {
 		return fmt.Errorf("handler/http: fail to request: %s", err)
 	}
+	defer resp.Body.Close()
 	fmt.Printf( "response %+v\n", resp)
 	return nil
 }
