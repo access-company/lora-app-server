@@ -65,6 +65,7 @@ func CreateApplication(db *sqlx.DB, item *Application) error {
 		insert into application (
 			name,
 			description,
+			callback,
 			rx_delay,
 			rx1_dr_offset,
 			channel_list_id,
@@ -75,9 +76,10 @@ func CreateApplication(db *sqlx.DB, item *Application) error {
 			installation_margin,
 			is_abp,
 			is_class_c
-		) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id`,
+		) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning id`,
 		item.Name,
 		item.Description,
+		item.CallbackURL,
 		item.RXDelay,
 		item.RX1DROffset,
 		item.ChannelListID,

@@ -35,6 +35,7 @@ func (a *ApplicationAPI) Create(ctx context.Context, req *pb.CreateApplicationRe
 	app := storage.Application{
 		Name:               req.Name,
 		Description:        req.Description,
+		CallbackURL:        "http://localhost",
 		IsABP:              req.IsABP,
 		IsClassC:           req.IsClassC,
 		RelaxFCnt:          req.RelaxFCnt,
